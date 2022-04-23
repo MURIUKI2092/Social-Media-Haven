@@ -1,0 +1,27 @@
+{
+  "name": "social-media-haven",
+  "version": "1.0.0",
+  "description": "Social-Media-Haven",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MURIUKI2092/Social-Media-Haven.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/MURIUKI2092/Social-Media-Haven/issues"
+  },
+  "homepage": "https://github.com/MURIUKI2092/Social-Media-Haven#readme",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "dotenv": "^16.0.0",
+    "express": "^4.17.3",
+    "mongoose": "^6.3.1",
+    "nodemon": "^2.0.15"
+  }
+}
