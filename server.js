@@ -8,6 +8,7 @@ dotenv.config();
 app.use(express.json())
 // const userRoute = require("./routes/users")
 const authRoute = require("./routes/Auth")
+const userRoute = require("./routes/users")
 mongoose.
 connect (process.env.MONGO_URL)
 .then(console.log("Db connected Successfully"))
@@ -16,6 +17,7 @@ connect (process.env.MONGO_URL)
 })
 
 app.use("/api/v1/users",authRoute)
+app.use("/api/v1/users",userRoute)
 
 
 app.listen({port},()=>{
