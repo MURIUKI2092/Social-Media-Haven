@@ -10,6 +10,7 @@ app.use(express.json())
 const authRoute = require("./routes/Auth")
 const userRoute = require("./routes/users")
 const profileRoute = require("./routes/profile")
+const followRoute =require("./routes/follow");
 mongoose.
 connect (process.env.MONGO_URL)
 .then(console.log("Db connected Successfully"))
@@ -20,6 +21,7 @@ connect (process.env.MONGO_URL)
 app.use("/api/v1/users",authRoute);
 app.use("/api/v1/users",userRoute);
 app.use("/api/v1/profiles",profileRoute);
+app.use("/api/v1/profiles/:username/follow",followRoute);
 
 
 app.listen({port},()=>{
