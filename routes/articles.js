@@ -37,5 +37,27 @@ router.get("/",async(req,res)=>{
     res.status(500).json(err)
   }
 })
+//update articles
+router.put("/:slug",async(req,res)=>{
+  try{
+    const articleToUpdate = await Article.findOneAndUpdate({slug:req.body.slug},{
+      $set:req.body
+    },{new:true}
+    );
+    res.status(200).json(articleToUpdate)
 
+  }catch(err){
+    res.status(500).json(err)
+  }
+})
+
+router.delete("/:slug",async(req,res)=>{
+  try{
+    const articleToDelete = await Article.findOneAndDelete({slug:req.body.slug});
+    res.status(200).json(` ${articleToDelete.title}  has been deleted successfully`)
+
+  }catch(err){
+    res.status(500).json(err);
+  }
+})
 module.exports=router;
