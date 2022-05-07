@@ -9,6 +9,7 @@ app.use(express.json())
 // const userRoute = require("./routes/users")
 const authRoute = require("./routes/Auth")
 const userRoute = require("./routes/users")
+const profileRoute = require("./routes/profile")
 mongoose.
 connect (process.env.MONGO_URL)
 .then(console.log("Db connected Successfully"))
@@ -16,8 +17,9 @@ connect (process.env.MONGO_URL)
   console.log(err)
 })
 
-app.use("/api/v1/users",authRoute)
-app.use("/api/v1/users",userRoute)
+app.use("/api/v1/users",authRoute);
+app.use("/api/v1/users",userRoute);
+app.use("/api/v1/profiles",profileRoute);
 
 
 app.listen({port},()=>{
