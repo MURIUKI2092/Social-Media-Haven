@@ -19,4 +19,4 @@ const followSchema =new mongoose.Schema({
   }
 },{timestamps:true})
 
-module.exports = mongoose.model("Profile",followSchema)
+module.exports = mongoose.model("follow",followSchema)
