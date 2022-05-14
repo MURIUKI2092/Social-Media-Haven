@@ -1,6 +1,8 @@
 const router = require("express").Router();
 const Article = require("../models/articles");
 const Comments = require("../models/comments")
+const Favorite = require("../models/favourite")
+
 
 
 // publish an  article
@@ -99,5 +101,38 @@ router.delete("/:slug/comments/:id",async(req,res)=>{
     res.status(500).json(err);
   }
 
+});
+// dealing with favorites articles
+// adding an article to the favorite section
+router.post("/:slug/favorite",async(req,res)=>{
+  try{
+    const articleToAddFavorite =await Article.findOne({slug:req.params.slug})
+    if(!articleToAddFavorite){
+      res.status(200).json("There is no article with that slug");
+    }
+    const favArticle = await new Favorite({
+      article:articleToAddFavorite
+    })
+    const myFavArticle = await favArticle.save();
+    res.status(200).json(myFavArticle)
+
+
+  }catch(err){
+    res.status(500).json(err);
+  }
+})
+// removing an article from the favorite section
+
+router.delete("/:slug/favorite",async(req,res)=>{
+  try{
+    const articleToRemoveFav= await Favorite.findOneAndDelete({slug:req.params.body});
+    if(!articleToRemoveFav){
+      res.status(200).json("There is no such article");
+    }
+    res.status(200).json("article has been removed successfully");
+
+  }catch(err){
+    res.status(500).json(err);
+  }
 })
 module.exports=router;
