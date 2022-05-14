@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const Article = require("../models/articles");
+const Comments = require("../models/comments")
 
 
 // publish an  article
@@ -50,7 +51,7 @@ router.put("/:slug",async(req,res)=>{
     res.status(500).json(err)
   }
 })
-
+//deleting an article using the slug name
 router.delete("/:slug",async(req,res)=>{
   try{
     const articleToDelete = await Article.findOneAndDelete({slug:req.body.slug});
@@ -59,5 +60,44 @@ router.delete("/:slug",async(req,res)=>{
   }catch(err){
     res.status(500).json(err);
   }
+})
+// The comment section
+//adding a comment
+router.post("/:slug/comments",async(req,res)=>{
+  try{
+    const newComment = await new Comments({
+      comment:req.body.comment
+
+    });
+    const comment = await newComment.save();
+    res.status(200).json(comment)
+  }catch(err){
+    req.status(500).json(err);
+  }
+})
+// get comments from an article
+router.get("/:slug/comments",async(req,res)=>{
+  try{
+    const allComments = await Comments.find();
+    if(!allComments){
+      res.status(200).json("There are no comments present")
+    }
+    res.status(200).json(allComments)
+  }catch(err){
+    res.status(500).json(err);
+  }
+
+})
+//delete comment using an id
+
+router.delete("/:slug/comments/:id",async(req,res)=>{
+  try{
+     const commentToDelete = await Comments.findByIdAndDelete(req.params.id);
+     res.status(200).json("The comment has been deleted");
+
+  }catch(err){
+    res.status(500).json(err);
+  }
+
 })
 module.exports=router;
