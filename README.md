@@ -1,9 +1,9 @@
 # Social-Media-Haven
-Social-Media-Haven
-API Spec
+## A Social platform for the creative at heart which inspires  a community of like minded authors to foster inspiration and innovation by leveraging the modern web.
+## API Spec
 The preferred JSON object to be returned by the API should be structured as follows:
 
-Users (for authentication)
+### Users (for authentication)
 {
   "user": {
     "email": "jake@jake.jake",
@@ -13,7 +13,7 @@ Users (for authentication)
     "image": null
   }
 }
-Profile
+### Profile
 {
   "profile": {
     "username": "jake",
@@ -22,7 +22,7 @@ Profile
     "following": false
   }
 }
-Single Article
+### Single Article
 {
   "article": {
     "slug": "how-to-train-your-dragon",
@@ -42,7 +42,7 @@ Single Article
     }
   }
 }
-Multiple Articles
+### Multiple Articles
 {
   "articles":[{
     "slug": "how-to-train-your-dragon",
@@ -80,7 +80,7 @@ Multiple Articles
   }],
   "articlesCount": 2
 }
-Single Comment
+### Single Comment
 {
   "comment": {
     "id": 1,
@@ -95,7 +95,7 @@ Single Comment
     }
   }
 }
-Multiple Comments
+### Multiple Comments
 {
   "comments": [{
     "id": 1,
@@ -118,7 +118,7 @@ List of Tags
     "angularjs"
   ]
 }
-Errors and Status Codes
+### Errors and Status Codes
 If a request fails any validations, expect errors in the following format:
 
 {
@@ -128,16 +128,11 @@ If a request fails any validations, expect errors in the following format:
     ]
   }
 }
-Other status codes:
-401 for Unauthorized requests, when a request requires authentication but it isn't provided
 
-403 for Forbidden requests, when a request may be valid but the user doesn't have permissions to perform the action
 
-404 for Not found requests, when a resource can't be found to fulfill the request
-
-Endpoints:
-Authentication:
-POST /api/users/login
+## Endpoints:
+### Authentication:
+#### POST /api/users/login
 
 Example request body:
 
@@ -151,8 +146,8 @@ No authentication required, returns a User
 
 Required fields: email, password
 
-Registration:
-POST /api/users
+### Registration:
+#### POST /api/users
 
 Example request body:
 
@@ -167,13 +162,13 @@ No authentication required, returns a User
 
 Required fields: email, username, password
 
-Get Current User
-GET /api/user
+### Get Current User
+#### GET /api/user
 
 Authentication required, returns a User that's the current user
 
-Update User
-PUT /api/user
+###  Update User
+#### PUT /api/user
 
 Example request body:
 
@@ -188,68 +183,60 @@ Authentication required, returns the User
 
 Accepted fields: email, username, password, image, bio
 
-Get Profile
-GET /api/profiles/:username
+### Get Profile
+#### GET /api/profiles/:username
 
 Authentication optional, returns a Profile
 
-Follow user
-POST /api/profiles/:username/follow
+### Follow user
+#### POST /api/profiles/:username/follow
 
 Authentication required, returns a Profile
 
 No additional parameters required
 
-Unfollow user
-DELETE /api/profiles/:username/follow
+### Unfollow user
+#### DELETE /api/profiles/:username/follow
 
 Authentication required, returns a Profile
 
 No additional parameters required
 
-List Articles
-GET /api/articles
+### List Articles
+#### GET /api/articles
 
 Returns most recent articles globally by default, provide tag, author or favorited query parameter to filter results
 
 Query Parameters:
 
-Filter by tag:
+### Filter by tag:
 
 ?tag=AngularJS
 
-Filter by author:
+### Filter by author:
 
 ?author=jake
 
-Favorited by user:
+### Favorited by user:
 
 ?favorited=jake
 
-Limit number of articles (default is 20):
 
-?limit=20
 
-Offset/skip number of articles (default is 0):
-
-?offset=0
-
-Authentication optional, will return multiple articles, ordered by most recent first
-
-Feed Articles
-GET /api/articles/feed
+### Feed Articles
+#### GET /api/articles/feed
 
 Can also take limit and offset query parameters like List Articles
 
 Authentication required, will return multiple articles created by followed users, ordered by most recent first.
 
-Get Article
-GET /api/articles/:slug
+### Get Article
+#### GET /api/articles/:slug
 
 No authentication required, will return single article
 
-Create Article
-POST /api/articles
+### Create Article
+#### POST /api/articles
 
 Example request body:
 
@@ -267,8 +254,8 @@ Required fields: title, description, body
 
 Optional fields: tagList as an array of Strings
 
-Update Article
-PUT /api/articles/:slug
+### Update Article
+#### PUT /api/articles/:slug
 
 Example request body:
 
@@ -283,13 +270,13 @@ Optional fields: title, description, body
 
 The slug also gets updated when the title is changed
 
-Delete Article
-DELETE /api/articles/:slug
+### Delete Article
+#### DELETE /api/articles/:slug
 
 Authentication required
 
-Add Comments to an Article
-POST /api/articles/:slug/comments
+### Add Comments to an Article
+#### POST /api/articles/:slug/comments
 
 Example request body:
 
@@ -300,27 +287,27 @@ Example request body:
 }
 Authentication required, returns the created Comment Required field: body
 
-Get Comments from an Article
-GET /api/articles/:slug/comments
+### Get Comments from an Article
+#### GET /api/articles/:slug/comments
 
 Authentication optional, returns multiple comments
 
-Delete Comment
-DELETE /api/articles/:slug/comments/:id
+### Delete Comment
+#### DELETE /api/articles/:slug/comments/:id
 
 Authentication required
 
-Favorite Article
-POST /api/articles/:slug/favorite
+### Favorite Article
+#### POST /api/articles/:slug/favorite
 
 Authentication required, returns the Article No additional parameters required
 
-Unfavorite Article
-DELETE /api/articles/:slug/favorite
+### Unfavorite Article
+#### DELETE /api/articles/:slug/favorite
 
 Authentication required, returns the Article
 
 No additional parameters required
 
-Get Tags
-GET /api/tags
+### Get Tags
+#### GET /api/tags
