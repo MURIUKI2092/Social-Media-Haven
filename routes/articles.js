@@ -1,0 +1,138 @@
+const router = require("express").Router();
+const Article = require("../models/articles");
+const Comments = require("../models/comments")
+const Favorite = require("../models/favourite")
+
+
+
+// publish an  article
+router.post("/",async(req,res)=>{
+  try{
+    const newArticle = await new Article({
+      slug:req.body.slug,
+      title:req.body.title,
+      description:req.body.description,
+      body:req.body.body,
+      tagList:req.body.tagList,
+      favorite:req.body.favorite,
+      favoritesCount:req.body.favoritesCount,
+      author: req.body.author
+      
+      
+    });
+    const article =  await newArticle.save();
+    res.status(200).json(article)
+
+  }catch(err){
+    res.status(500).json(err)
+
+  }
+});
+
+//get all articles
+router.get("/",async(req,res)=>{
+  try{
+    const allArticles = await Article.find();
+    res.status(200).json(allArticles)
+
+
+  }catch(err){
+    res.status(500).json(err)
+  }
+})
+//update articles
+router.put("/:slug",async(req,res)=>{
+  try{
+    const articleToUpdate = await Article.findOneAndUpdate({slug:req.body.slug},{
+      $set:req.body
+    },{new:true}
+    );
+    res.status(200).json(articleToUpdate)
+
+  }catch(err){
+    res.status(500).json(err)
+  }
+})
+//deleting an article using the slug name
+router.delete("/:slug",async(req,res)=>{
+  try{
+    const articleToDelete = await Article.findOneAndDelete({slug:req.body.slug});
+    res.status(200).json(` ${articleToDelete.title}  has been deleted successfully`)
+
+  }catch(err){
+    res.status(500).json(err);
+  }
+})
+// The comment section
+//adding a comment
+router.post("/:slug/comments",async(req,res)=>{
+  try{
+    const newComment = await new Comments({
+      comment:req.body.comment
+
+    });
+    const comment = await newComment.save();
+    res.status(200).json(comment)
+  }catch(err){
+    req.status(500).json(err);
+  }
+})
+// get comments from an article
+router.get("/:slug/comments",async(req,res)=>{
+  try{
+    const allComments = await Comments.find();
+    if(!allComments){
+      res.status(200).json("There are no comments present")
+    }
+    res.status(200).json(allComments)
+  }catch(err){
+    res.status(500).json(err);
+  }
+
+})
+//delete comment using an id
+
+router.delete("/:slug/comments/:id",async(req,res)=>{
+  try{
+     const commentToDelete = await Comments.findByIdAndDelete(req.params.id);
+     res.status(200).json("The comment has been deleted");
+
+  }catch(err){
+    res.status(500).json(err);
+  }
+
+});
+// dealing with favorites articles
+// adding an article to the favorite section
+router.post("/:slug/favorite",async(req,res)=>{
+  try{
+    const articleToAddFavorite =await Article.findOne({slug:req.params.slug})
+    if(!articleToAddFavorite){
+      res.status(200).json("There is no article with that slug");
+    }
+    const favArticle = await new Favorite({
+      article:articleToAddFavorite
+    })
+    const myFavArticle = await favArticle.save();
+    res.status(200).json(myFavArticle)
+
+
+  }catch(err){
+    res.status(500).json(err);
+  }
+})
+// removing an article from the favorite section
+
+router.delete("/:slug/favorite",async(req,res)=>{
+  try{
+    const articleToRemoveFav= await Favorite.findOneAndDelete({slug:req.params.body});
+    if(!articleToRemoveFav){
+      res.status(200).json("There is no such article");
+    }
+    res.status(200).json("article has been removed successfully");
+
+  }catch(err){
+    res.status(500).json(err);
+  }
+})
+module.exports=router;
